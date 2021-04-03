@@ -1,30 +1,12 @@
-let money;
-let income;
-let addExpenses;
-let deposit;
-let mission;
-let period;
+let num = 266219;
+let sum = 1;
 
-alert('Первый урок какой-то легкий, подозрительно');
-console.log('И сюда напишем что-нибудь');
+let arr = num.toString().split(''); // приводим к строке и разделяем в массив
 
-money = 15000;
-income = 'маникюрчик';
-addExpenses = 'еда, транспорт, интернет, вкусняшки';
-deposit = true;
-mission = 1000000;
-period = 3;
+for(let i = 0; i < arr.length; i++) {
+  sum *= arr[i];
+}
+console.log(sum);
+sum = sum ** 3;
 
-console.log(typeof(money));
-console.log(typeof(income));
-console.log(typeof(deposit));
-
-console.log('Длина строки addExpenses: ', addExpenses.length);
-console.log('Период равен ' + period + ' месяцев');
-console.log('Цель заработать ' + mission + ' рублей');
-
-console.log((addExpenses.toLowerCase()).split(', '));
-
-let budgetDay = 'Доход за месяц' + ' / ' + money;
-
-console.log(budgetDay);
+console.log(sum.toString().slice(0, 2));
