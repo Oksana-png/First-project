@@ -1,19 +1,12 @@
-let money;
-let income;
-let addExpenses;
-let deposit;
-let mission;
-let period;
+let money = 15000;
+let income = 'маникюрчик';
+let addExpenses = 'еда, транспорт, интернет, вкусняшки';
+let deposit = true;
+let mission = 1000000;
+let period = 3;
 
 alert('Первый урок какой-то легкий, подозрительно');
 console.log('И сюда напишем что-нибудь');
-
-money = 15000;
-income = 'маникюрчик';
-addExpenses = 'еда, транспорт, интернет, вкусняшки';
-deposit = true;
-mission = 1000000;
-period = 3;
 
 console.log(typeof(money));
 console.log(typeof(income));
@@ -25,6 +18,5 @@ console.log('Цель заработать ' + mission + ' рублей');
 
 console.log((addExpenses.toLowerCase()).split(', '));
 
-let budgetDay = 'Доход за месяц' + ' / ' + money;
-
+let budgetDay = money / 30;
 console.log(budgetDay);
