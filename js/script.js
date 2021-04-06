@@ -20,11 +20,11 @@ switch (lang) {
 }
 
 // Через Многомерный массив
-let arr = ['ru', 'en'];
-arr['ru'] = ['Понедельник, вторник, среда, четверг, пятница, суббота, воскресенье'];
-arr['en'] = ['Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday'];
+let arr = new Map();
+arr.set('ru', 'Понедельник, вторник, среда, четверг, пятница, суббота, воскресенье');
+arr.set('en', 'Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday');
 
-console.log(arr[lang]);
+console.log(arr.get(lang));
 
 // второе задание
 let namePerson = 'Максим';
