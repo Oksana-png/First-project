@@ -6,12 +6,12 @@ let mission = 10000;
 let period = 3;
 
 let expenses1 = prompt('Введите обязательную статью расходов?');
-let expenses2 = prompt('Введите обязательную статью расходов?');
-
 let amount1 = +prompt('Во сколько это обойдется?');
+
+let expenses2 = prompt('Введите обязательную статью расходов?');
 let amount2 = +prompt('Во сколько это обойдется?');
 
-let budgetMonth = amount1 + amount2; // Бюджет за месяц
+let budgetMonth = money - (amount1 + amount2); // Бюджет за месяц
 let budgetDay = Math.floor((budgetMonth / 30));
 
 
@@ -37,7 +37,7 @@ switch (true) {
   case budgetDay >= 1200:
     console.log('У вас высокий уровень дохода');
     break;
-  case budgetDay >= 600:
+  case budgetDay >= 600 && budgetDay < 1200:
     console.log('У вас средний уровень дохода');
     break;
   case budgetDay < 600 && budgetDay >= 0:
@@ -47,3 +47,4 @@ switch (true) {
     console.log('Что то пошло не так');
     break;
 }
+
