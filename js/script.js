@@ -1,32 +1,60 @@
-let lang = 'ru';
+'use strict';
 
-// через if 
-if (lang === 'ru') {
-  console.log('Понедельник, вторник, среда, четверг, пятница, суббота, воскресенье');
-} else if (lang === 'en') {
-  console.log('Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday');
-} else {
-  console.log('Такого языка не существует в базе!');
-}
+let money = +prompt('Ваш месячный доход?'); // ДОХОД
+let income = 'маникюрчик';
+let addExpenses = prompt('Перечислите возможные расходы за рассчитываемый период через запятую');
+let deposit = confirm('Есть ли у вас депозит в банке?');
+let mission = 10000;
+let period = 3;
 
-// Через switch-case
-switch (lang) {
-  case 'ru':
-    console.log('Понедельник, вторник, среда, четверг, пятница, суббота, воскресенье');
-    break;
-  case 'en':
-    console.log('Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday');
-    break;
-}
+let expenses1 = prompt('Введите обязательную статью расходов?');
+let amount1 = +prompt('Во сколько это обойдется?');
 
-// Через Многомерный массив
-let arr = new Map();
-arr.set('ru', 'Понедельник, вторник, среда, четверг, пятница, суббота, воскресенье');
-arr.set('en', 'Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday');
+let expenses2 = prompt('Введите обязательную статью расходов?');
+let amount2 = +prompt('Во сколько это обойдется?');
+// Сумма всех обязательных расходов
+const getExpensesMonth = function() {
+  return amount1 + amount2;
+};
+// Накопления за месяц (доходы - расходы)
+const getAccumulatedMonth = function() {
+  return money - getExpensesMonth();
+};
 
-console.log(arr.get(lang));
+const accumulatedMonth = getAccumulatedMonth();
 
-// второе задание
-let namePerson = 'Максим';
+const getTargetMonth = function() {
+  return mission / accumulatedMonth;
+};
 
-(namePerson === 'Артем') ? console.log('директор') : (namePerson === 'Максим') ? console.log('преподаватель') : console.log('студент');
+let budgetDay = Math.floor((accumulatedMonth / 30));
+
+const showTypeOf = function(data) {
+  return typeof(data);
+};
+console.log(showTypeOf(money));
+console.log(showTypeOf(income));
+console.log(showTypeOf(deposit));
+
+console.log('Расходы за месяц: ' + getExpensesMonth());
+console.log('Возможные расходы: ' + addExpenses);
+console.log('Цель будет достигнута за ' + getTargetMonth() + ' месяцев(-а)');
+console.log('Бюджет на день: ' + budgetDay);
+
+const getStatusIncome = function() {
+  switch (true) {
+    case budgetDay >= 1200:
+      return ('У вас высокий уровень дохода');
+      
+    case budgetDay >= 600 && budgetDay < 1200:
+      return ('У вас средний уровень дохода');
+      
+    case budgetDay < 600 && budgetDay >= 0:
+      return ('К сожалению у вас уровень дохода ниже среднего');
+      
+    case budgetDay < 0:
+      return ('Что то пошло не так');
+      
+  }
+};
+console.log(getStatusIncome());
