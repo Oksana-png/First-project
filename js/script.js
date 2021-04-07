@@ -13,43 +13,42 @@ let period = 3;
 
 let start = function() {
   do {
-    money = +prompt('Ваш месячный доход');
+    money = prompt('Ваш месячный доход?');
   } while (!isNumber(money));
-  console.log(money)
-  return money;
-};
 
-start();
+  return +money;
+};
 
 let expenses = [];
 let amount = [];
-
-
-
 // Сумма всех обязательных расходов ДОБАВИТЬ ПРОВЕРКУ НА ЧИСЛО
 const getExpensesMonth = function() {
   let sum = 0;
   for (let i = 0; i < 2; i++) {
     expenses[i] = prompt('Введите обязательную статью расходов?');
-
+    
     do{
       amount[i] = prompt('Во сколько это обойдется?');  
     } while (!isNumber(amount[i]));
-    console.log(amount[i]);
-
-    sum += parseFloat(amount[i]);
+    
+    sum += +amount[i];
   }
   return sum;
 };
 
+start();
+let expensesMonth = getExpensesMonth();
+
+
 // Накопления за месяц (доходы - расходы)
 const getAccumulatedMonth = function() {
-  return money - getExpensesMonth();
+  return money - expensesMonth;
 };
 
 const accumulatedMonth = getAccumulatedMonth();
 
 const getTargetMonth = function() {
+
   const month = Math.round(mission / accumulatedMonth);
   if (month < 0) {
     return 'Цель не будет достигнута';
@@ -68,8 +67,8 @@ console.log(showTypeOf(money));
 console.log(showTypeOf(income));
 console.log(showTypeOf(deposit));
 
-console.log('Расходы за месяц: ' + getExpensesMonth());
-console.log('Возможные расходы: ' + addExpenses);
+console.log('Расходы за месяц: ' + expensesMonth);
+console.log('Возможные расходы: ' + addExpenses.toLowerCase().split(', '));
 console.log(getTargetMonth());
 console.log('Бюджет на день: ' + budgetDay);
 
