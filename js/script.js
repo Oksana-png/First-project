@@ -20,8 +20,8 @@ for1: for (let i = 1; i <= 100; i++) {
     if(i % j === 0) {
       continue for1;
     }
-
   }
-  console.log(i);
+  console.log(i + ' делители этого числа: 1 и ' + i);
+
 }
 
