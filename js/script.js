@@ -4,13 +4,6 @@ let isNumber = function(n) {
   return !isNaN(parseFloat(n)) && isFinite(n);
 };
 
-let money; // ДОХОД
-let income = 'маникюрчик';
-let addExpenses = prompt('Перечислите возможные расходы за рассчитываемый период через запятую');
-let deposit = confirm('Есть ли у вас депозит в банке?');
-let mission = 10000;
-let period = 3;
-
 let start = function() {
   do {
     money = prompt('Ваш месячный доход?');
@@ -18,6 +11,17 @@ let start = function() {
 
   return +money;
 };
+
+let money; // ДОХОД
+let income = 'маникюрчик';
+
+start();
+
+let addExpenses = prompt('Перечислите возможные расходы за рассчитываемый период через запятую');
+let deposit = confirm('Есть ли у вас депозит в банке?');
+let mission = 10000;
+let period = 3;
+
 
 let expenses = [];
 let amount = [];
@@ -36,7 +40,6 @@ const getExpensesMonth = function() {
   return sum;
 };
 
-start();
 let expensesMonth = getExpensesMonth();
 
 
