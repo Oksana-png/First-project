@@ -4,6 +4,8 @@ let isNumber = function(n) {
   return !isNaN(parseFloat(n)) && isFinite(n);
 };
 
+let money; 
+
 let start = function() {
   do {
     money = prompt('Ваш месячный доход?');
@@ -12,7 +14,6 @@ let start = function() {
   return +money;
 };
 
-let money; // ДОХОД
 let income = 'маникюрчик';
 
 start();
@@ -28,6 +29,7 @@ let amount = [];
 // Сумма всех обязательных расходов ДОБАВИТЬ ПРОВЕРКУ НА ЧИСЛО
 const getExpensesMonth = function() {
   let sum = 0;
+  
   for (let i = 0; i < 2; i++) {
     expenses[i] = prompt('Введите обязательную статью расходов?');
     
