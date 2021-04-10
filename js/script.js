@@ -3,6 +3,17 @@
 let isNumber = function(n) {
   return !isNaN(parseFloat(n)) && isFinite(n);
 };
+let isStr = function(str) {
+  if (isNaN(+str)) { // Когда не число - true
+    return false;
+  } else {
+    return true;
+  }
+};
+
+let value = '545gdf';
+
+isStr(value);
 
 let money; 
 
@@ -23,6 +34,8 @@ let appData = {
   expenses: {},
   addExpenses: [],
   deposit: false,
+  percentDeposit: 0,
+  moneyDeposit: 0,
   mission: 10000,
   period: 3,
   budgetDay: 0,
@@ -31,13 +44,30 @@ let appData = {
   month: 0,
 
   asking: function() {
+
+    if (confirm('Есть ли у вас дополнительный источник заработка?')) {
+      let itemIncome,
+          cashIncome;
+      do {
+        itemIncome = prompt('Какой у вас дополнительный заработок?');
+      } while (isStr(itemIncome));
+
+      do {
+        cashIncome = prompt('Сколько в месяц вы на этом зарабатываете?');
+      } while (!isNumber(cashIncome));
+
+      appData.income[itemIncome] = cashIncome;
+    }
+
     let addExpenses = prompt('Перечислите возможные расходы за рассчитываемый период через запятую');
       addExpenses = addExpenses.toLowerCase().split(', ');
       appData.addExpenses = addExpenses;
-    appData.deposit = confirm('Есть ли у вас депозит в банке?');
 
     for (let i = 0; i < 2; i++) {
-      let key = prompt('Введите обязательную статью расходов?');
+      let key;
+      do {
+        key = prompt('Введите обязательную статью расходов?');
+      } while (isStr(key));
       do{
         appData.expenses[key] = prompt('Во сколько это обойдется?');  
       } while (!isNumber(appData.expenses[key]));
@@ -79,6 +109,23 @@ let appData = {
         return ('Что то пошло не так');
     }
   },
+
+  getInfoDeposit: function() {
+    if (appData.deposit) {
+      do {
+        appData.percentDeposit = prompt('Какой годовой процент?');
+      } while(!isNumber(appData.percentDeposit));
+
+      do {
+        appData.moneyDeposit = prompt('Какая сумма заложена?');
+      } while(!isNumber(appData.moneyDeposit));
+      
+    }
+  },
+
+  calcSavedMoney: function() {
+    return appData.budgetMonth * appData.period;
+  }
 };
 
 appData.asking();
@@ -95,3 +142,13 @@ console.log('Наша программа включает в себя данны
 for(let key in appData) {
   console.log(key + ' - ' + appData[key]);
 }
+
+// Вывод массива через запятую с пробелом и каждая буква элемента с большой буквы
+let addExpensesUpper = [];
+appData.addExpenses.forEach(function(item) {
+  let character = item[0].toUpperCase();
+  let word = item.slice(1);
+  addExpensesUpper.push(character + word);
+});
+
+console.log(addExpensesUpper.join(', '));
