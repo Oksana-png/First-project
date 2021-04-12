@@ -11,11 +11,21 @@ let isStr = function(str) {
   }
 };
 
-let value = '545gdf';
-
-isStr(value);
-
 let money; 
+const buttonCalc = document.getElementById('start');
+const buttonPlusIncom = document.getElementsByTagName('button')[0];
+const buttonPlusExpenses = document.getElementsByTagName('button')[1];
+const depositCheckbox = document.querySelector('.deposit-checkmark');
+const additionalIncomeItem = document.querySelectorAll('.additional_income-item');
+
+const budgetDayValue = document.getElementsByClassName('budget_day-value')[0];
+const expensesMonthValue = document.getElementsByClassName('expenses_month-value')[0];
+const additionalIncomeValue = document.getElementsByClassName('additional_income-value')[0];
+const additionalExpensesValue = document.getElementsByClassName('additional_expenses-value')[0];
+const incomePeriodValue = document.getElementsByClassName('income_period-value')[0];
+const targetMonthValue = document.getElementsByClassName('target_month-value')[0];
+const budgetMonthValue = document.querySelector('.budget_month-value');
+const periodRange = document.querySelector('.period-select');
 
 let start = function() {
   do {
