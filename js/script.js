@@ -1,59 +1,36 @@
-'use strict';
-// Дата
-let week = ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'];
-// Функция принимает число и массив с нужными значениями (склонения чисел)
-// Идет проверка, если число меньше 20 и % 4 
-function determinEnd (number, txt) {
-  let cases = [2, 0, 1, 1, 1, 2];
-  return number + ' ' + txt[(number % 100 > 4 && number % 100 < 20) ? 2 : cases[(number % 10 < 5) ? number % 10 : 5]];
-}
+'Use strict';
 
-setInterval(function() {
-  let date = new Date();
+const books = document.querySelectorAll('.book');
+const booksWrapper = document.querySelector('.books');
+const imageBody = document.querySelector('body');
+const titleBook = document.querySelectorAll('h2>a');
+const promotion = document.querySelector('.adv');
+const ulItem = document.querySelectorAll('ul');
+const chapters = document.querySelectorAll('ul>li');
+const chapterClone = chapters[3].cloneNode(true);
 
-  let weekDays;
-  week.forEach(function(item, i) {
-    if(date.getDay() === i) {
-      weekDays = item + ', ';
-    }
-  });
+booksWrapper.prepend(books[1]);
+booksWrapper.append(books[2]);
+books[0].after(books[4]);
 
-  const sett = {
-    day: 'numeric',
-    month: 'long',
-  };
+imageBody.style.backgroundImage = 'url("image/you-dont-know-js.jpg")';
 
-  let year = date.getFullYear() + ' года, ';
-  let hour = date.getHours();
-  let minut = date.getMinutes();
-  let second = date.getSeconds();
-  hour = determinEnd(hour, ['час', 'часа', 'часов']);
-  minut = determinEnd(minut, ['минута', 'минуты', 'минут']);
-  second = determinEnd(second, ['секунда', 'секунды', 'секунд']);
+// меняем заголовок
+titleBook[4].textContent = 'Книга 3. this и Прототипы Объектов';
 
-  date = date.toLocaleString('ru', sett);
+promotion.remove();
 
-  date = `Сегодня ${weekDays} ${date} ${year} ${hour} ${minut} ${second}`;
-  document.querySelector('h1').innerHTML = '';
-  document.querySelector('h1').innerHTML += '<br><br>' + date;
+console.log(chapters);
 
-}, 1000);
+// книга 2
+ulItem[0].append(chapters[2]);
+ulItem[0].append(chapters[10]);
+chapters[9].before(chapters[7]);
+chapters[3].after(chapters[6], chapters[8]);
 
-setInterval(function() {
-  let dateShort = new Date();
-  const settShort = {
-    day: 'numeric',
-    month: 'numeric',
-    year: 'numeric',
-  };
-  const settTime = {
-    hour: 'numeric',
-    minute: 'numeric',
-    second: 'numeric',
-  };
-  
-  document.querySelector('.date').innerHTML = '';
-  document.querySelector('.date').innerHTML += dateShort.toLocaleString('ru', settShort) + ' - ' + dateShort.toLocaleString('ru', settTime);
+// книга 5
+chapters[47].after(chapters[55], chapters[49], chapters[50]);
+chapters[54].before(chapters[51]);
 
-}, 1000);
-
+chapterClone.textContent = 'Глава 8: За пределами ES6';
+chapters[25].after(chapterClone);
