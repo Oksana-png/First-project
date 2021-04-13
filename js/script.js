@@ -1,15 +1,20 @@
 'use strict';
 // Дата
 let week = ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'];
+// Функция принимает число и массив с нужными значениями (склонения чисел)
+// Идет проверка, если число меньше 20 и % 4 
+function determinEnd (number, txt) {
+  let cases = [2, 0, 1, 1, 1, 2];
+  return number + ' ' + txt[(number % 100 > 4 && number % 100 < 20) ? 2 : cases[(number % 10 < 5) ? number % 10 : 5]];
+}
 
 setInterval(function() {
-
   let date = new Date();
 
   let weekDays;
   week.forEach(function(item, i) {
     if(date.getDay() === i) {
-      weekDays = week[i] + ', ';
+      weekDays = item + ', ';
     }
   });
 
@@ -20,21 +25,15 @@ setInterval(function() {
 
   let year = date.getFullYear() + ' года, ';
   let hour = date.getHours();
-  let minut = date.getMinutes() + ' минут ';
-  let second = date.getSeconds() + ' секунды';
-  const dayValue = function(v) {
-    if(v === 1 || v === 21) {
-      return v + ' час';
-    } else if ((v >= 2 && v <= 4) || (v >= 22 && v <= 24)) {
-      return v + ' часа';
-    } else if (v >=5 && v <= 24 && v) {
-      return v + ' часов';
-    }
-  };
+  let minut = date.getMinutes();
+  let second = date.getSeconds();
+  hour = determinEnd(hour, ['час', 'часа', 'часов']);
+  minut = determinEnd(minut, ['минута', 'минуты', 'минут']);
+  second = determinEnd(second, ['секунда', 'секунды', 'секунд']);
 
   date = date.toLocaleString('ru', sett);
 
-  date = `Сегодня ${weekDays} ${date} ${year} ${dayValue(hour)} ${minut}${second}`;
+  date = `Сегодня ${weekDays} ${date} ${year} ${hour} ${minut} ${second}`;
   document.querySelector('h1').innerHTML = '';
   document.querySelector('h1').innerHTML += '<br><br>' + date;
 
@@ -56,6 +55,5 @@ setInterval(function() {
   document.querySelector('.date').innerHTML = '';
   document.querySelector('.date').innerHTML += dateShort.toLocaleString('ru', settShort) + ' - ' + dateShort.toLocaleString('ru', settTime);
 
-  
-
 }, 1000);
+
