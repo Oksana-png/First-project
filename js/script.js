@@ -32,7 +32,12 @@ const periodNumber = document.querySelector('.period-amount');
 const salaryAmount = document.querySelector('.salary-amount');
 let expensesItems = document.querySelectorAll('.expenses-items');
 let incomeItems = document.querySelectorAll('.income-items');
+const placeHoldName = document.querySelectorAll('[placeholder="Наименование"]');
+const placeHoldNumber = document.querySelectorAll('[placeholder="Сумма"]');
 
+
+const numderRegect = /[-\.;":'a-zA-Zа-яА-Я\s]/;
+const wordRegect = /['A-z'\d]/;
 let appData = {
   budget: 0,
   income: {},
@@ -68,7 +73,7 @@ let appData = {
     additionalIncomeValue.value = appData.addIncome.join(', ');
     targetMonthValue.value = appData.month;
     incomePeriodValue.value = appData.calcSavedMoney();
-    
+
     periodRange.addEventListener('input', function () {
       appData.getTargetMonth();
       incomePeriodValue.value = appData.calcSavedMoney();
@@ -77,6 +82,12 @@ let appData = {
 
   addExpensesBlock: function () {
     let cloneExpensesItem = expensesItems[0].cloneNode(true);
+
+    let clearClone = cloneExpensesItem.children;
+    for (let key = 0; clearClone.length > key; key++) {
+      clearClone[key].value = '';
+    }
+
     buttonPlusExpenses.before(cloneExpensesItem);
     expensesItems = document.querySelectorAll('.expenses-items');
     if (expensesItems.length === 3) {
@@ -96,8 +107,15 @@ let appData = {
   },
   addIncomeBlock: function () {
     let cloneIncomeBlock = incomeItems[0].cloneNode(true);
+    // очистка полей 
+    let clearClone = cloneIncomeBlock.children;
+    for (let key = 0; clearClone.length > key; key++) {
+      clearClone[key].value = '';
+    }
+    
     buttonPlusIncome.before(cloneIncomeBlock);
     incomeItems = document.querySelectorAll('.income-items');
+    
     if (incomeItems.length === 3) {
       buttonPlusIncome.style.display = 'none';
     }
@@ -171,7 +189,6 @@ let appData = {
       do {
         appData.moneyDeposit = prompt('Какая сумма заложена?');
       } while(!isNumber(appData.moneyDeposit));
-      
     }
   },
   calcSavedMoney: function() {
@@ -182,12 +199,11 @@ let appData = {
   },
 };
 
-start.setAttribute('disabled', 'true');
+start.disabled = 'true';
 // проверка на наличие данных в Месячном доходе
 salaryAmount.addEventListener('input', function () {
-  if (salaryAmount.value.trim() !== '') {
-    start.removeAttribute('disabled');
-  }
+  start.disabled = salaryAmount.value.trim() === '';
+  // возвращаем true/false и сразу записываем в атрибут
 });
 
 start.addEventListener('click', appData.start);
@@ -195,6 +211,17 @@ buttonPlusExpenses.addEventListener('click', appData.addExpensesBlock);
 buttonPlusIncome.addEventListener('click', appData.addIncomeBlock);
 periodRange.addEventListener('input', appData.getRangeText);
 
+placeHoldName.forEach(function(item) {
+  item.addEventListener('input', function() {
+    item.value = item.value.replace(wordRegect, '');
+  });
+});
+
+placeHoldNumber.forEach(function(item) {
+  item.addEventListener('input', function() {
+    item.value = item.value.replace(numderRegect, '');
+  });
+});
 
 
 // console.log('Наша программа включает в себя данные: ');
