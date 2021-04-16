@@ -9,12 +9,14 @@ const DomElement = function(selector, height, width, bg, fontSize) {
 };
 
 DomElement.prototype.select = function() {
-  let newElem = document.createElement('div');
+  let newElem;
 
   if(this.selector.slice(0, 1) === '.') {
+    newElem = document.createElement('div');
     newElem.classList.add(this.selector.slice(1));
   } else if(this.selector.slice(0, 1) === '#') {
-    newElem.getAttribute(this.selector.slice(1));
+    newElem = document.createElement('p');
+    newElem.setAttribute('id', this.selector.slice(1));
   }
 
   newElem.style.height = this.height;
@@ -26,6 +28,6 @@ DomElement.prototype.select = function() {
   console.log(newElem);
 };
 
-const elem = new DomElement('.block', '250px', '100%', 'blue', '45px');
+const elem = new DomElement('#block', '250px', '100%', 'blue', '45px');
 
 elem.select();
