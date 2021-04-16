@@ -1,31 +1,55 @@
 'Use strict';
 
-const DomElement = function(selector, height, width, bg, fontSize) {
+document.addEventListener('DOMContentLoaded', function() {
+  const DomElement = function(selector, height, width, bg, fontSize) {
   this.selector = selector;
   this.height = height;
   this.width = width;
   this.bg = bg;
   this.fontSize = fontSize;
-};
+  this.newElem = '';
+  };
 
-DomElement.prototype.select = function() {
-  let newElem = document.createElement('div');
+  DomElement.prototype.select = function() {
+    this.newElem = document.createElement('div');
 
-  if(this.selector.slice(0, 1) === '.') {
-    newElem.classList.add(this.selector.slice(1));
-  } else if(this.selector.slice(0, 1) === '#') {
-    newElem.getAttribute(this.selector.slice(1));
-  }
+    if(this.selector.slice(0, 1) === '.') {
+      this.newElem.classList.add(this.selector.slice(1));
+    } else if(this.selector.slice(0, 1) === '#') {
+      this.newElem.setAttribute('id', this.selector.slice(1));
+    }
 
-  newElem.style.height = this.height;
-  newElem.style.width = this.width;
-  newElem.style.backgroundColor = this.bg;
-  newElem.style.fontSize = this.fontSize;
-  newElem.textContent = 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Laudantium veniam ullam accusamus reiciendis eum voluptatem rem commodi saepe accusantium quo? Cumque ratione facilis repellendus quos voluptatum impedit nihil, assumenda ut eos! Aut commodi culpa quod accusantium nisi fuga ab ratione quam quae expedita similique itaque sequi sed, ad cum repellendus!';
-  document.querySelector('body').append(newElem);
-  console.log(newElem);
-};
+    this.newElem.style.height = this.height;
+    this.newElem.style.width = this.width;
+    this.newElem.style.backgroundColor = this.bg;
+    this.newElem.style.fontSize = this.fontSize;
+    this.newElem.style.position = 'absolute';
+    document.querySelector('body').append(this.newElem);
+  };
 
-const elem = new DomElement('.block', '250px', '100%', 'blue', '45px');
+  const elem = new DomElement('#block', '100px', '100px', 'blue', '45px');
+  elem.select();
 
-elem.select();
+  let top = 0;
+  let left = 0;
+  let px = 'px';
+  const moveCube = function(event) {
+    const code = event.code;
+    if(code === 'ArrowUp') {
+      top -= 10;
+      elem.newElem.style.top = top + px;
+    } else if(code === 'ArrowDown') {
+      top += 10;
+      elem.newElem.style.top = top + px;
+    } else if(code === 'ArrowLeft') {
+      left -= 10;
+      elem.newElem.style.left = left + px;
+    } else if(code === 'ArrowRight') {
+      left += 10;
+      elem.newElem.style.left = left + px;
+      console.log(left);
+    }
+  };
+  
+  document.querySelector('body').addEventListener('keydown', moveCube);
+});
