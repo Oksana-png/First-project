@@ -32,8 +32,8 @@ const periodNumber = document.querySelector('.period-amount');
 const salaryAmount = document.querySelector('.salary-amount');
 let expensesItems = document.querySelectorAll('.expenses-items');
 let incomeItems = document.querySelectorAll('.income-items');
-const placeHoldName = document.querySelectorAll('[placeholder="Наименование"]');
-const placeHoldNumber = document.querySelectorAll('[placeholder="Сумма"]');
+let placeHoldName = document.querySelectorAll('[placeholder="Наименование"]');
+let placeHoldNumber = document.querySelectorAll('[placeholder="Сумма"]');
 let inputTextDisabled = document.querySelectorAll('.data [type="text"]');
 
 const numderRegect = /[-\.;":'a-zA-Zа-яА-Я\s]/;
@@ -97,6 +97,7 @@ AppData.prototype.addExpensesBlock = function () {
   if (expensesItems.length === 3) {
     buttonPlusExpenses.style.display = 'none';
   }
+  this.checkInput();
 };
 
 AppData.prototype.getExpenses = function () {
@@ -122,6 +123,7 @@ AppData.prototype.addIncomeBlock = function () {
   if (incomeItems.length === 3) {
     buttonPlusIncome.style.display = 'none';
   }
+  this.checkInput();
 };
 AppData.prototype.getIncome = function () {
   incomeItems.forEach(function (item) {
@@ -253,20 +255,9 @@ AppData.prototype.reset = function () {
   }
   buttonPlusExpenses.style.display = 'block';
 };
-AppData.prototype.eventListen = function() {
-
-  start.disabled = 'true';
-  // проверка на наличие данных в Месячном доходе
-  salaryAmount.addEventListener('input', function () {
-    start.disabled = salaryAmount.value.trim() === '';
-    // возвращаем true/false и сразу записываем в атрибут
-  });
-  
-  start.addEventListener('click', this.start.bind(this));
-  buttonPlusExpenses.addEventListener('click', this.addExpensesBlock);
-  buttonPlusIncome.addEventListener('click', this.addIncomeBlock);
-  periodRange.addEventListener('input', this.getRangeText);
-  cancel.addEventListener('click', this.reset.bind(this));
+AppData.prototype.checkInput = function() {
+  placeHoldName = document.querySelectorAll('[placeholder="Наименование"]');
+  placeHoldNumber = document.querySelectorAll('[placeholder="Сумма"]');
   // регулярные выражения
   placeHoldName.forEach(function(item) {
     item.addEventListener('input', function() {
@@ -278,6 +269,21 @@ AppData.prototype.eventListen = function() {
       item.value = item.value.replace(numderRegect, '');
     });
   });
+};
+AppData.prototype.eventListen = function() {
+  start.disabled = 'true';
+  // проверка на наличие данных в Месячном доходе
+  salaryAmount.addEventListener('input', function () {
+    start.disabled = salaryAmount.value.trim() === '';
+    // возвращаем true/false и сразу записываем в атрибут
+  });
+  
+  start.addEventListener('click', this.start.bind(this));
+  buttonPlusExpenses.addEventListener('click', this.addExpensesBlock.bind(this));
+  buttonPlusIncome.addEventListener('click', this.addIncomeBlock.bind(this));
+  periodRange.addEventListener('input', this.getRangeText);
+  cancel.addEventListener('click', this.reset.bind(this));
+  this.checkInput();
 };
 
 const appData = new AppData();
