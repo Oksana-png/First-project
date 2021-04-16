@@ -32,8 +32,8 @@ const periodNumber = document.querySelector('.period-amount');
 const salaryAmount = document.querySelector('.salary-amount');
 let expensesItems = document.querySelectorAll('.expenses-items');
 let incomeItems = document.querySelectorAll('.income-items');
-const placeHoldName = document.querySelectorAll('[placeholder="Наименование"]');
-const placeHoldNumber = document.querySelectorAll('[placeholder="Сумма"]');
+let placeHoldName = document.querySelectorAll('[placeholder="Наименование"]');
+let placeHoldNumber = document.querySelectorAll('[placeholder="Сумма"]');
 
 
 const numderRegect = /[-\.;":'a-zA-Zа-яА-Я\s]/;
@@ -93,6 +93,9 @@ let appData = {
     if (expensesItems.length === 3) {
       buttonPlusExpenses.style.display = 'none';
     }
+    placeHoldNumber = document.querySelectorAll('[placeholder="Сумма"]');
+    placeHoldName = document.querySelectorAll('[placeholder="Наименование"]');
+    regular();
   },
 
   getExpenses: function () {
@@ -102,7 +105,6 @@ let appData = {
       if (itemExpenses !== '' && cashExpenses !== '') {
         appData.expenses[itemExpenses] = cashExpenses;
       }
-      
     });
   },
   addIncomeBlock: function () {
@@ -119,6 +121,9 @@ let appData = {
     if (incomeItems.length === 3) {
       buttonPlusIncome.style.display = 'none';
     }
+    placeHoldNumber = document.querySelectorAll('[placeholder="Сумма"]');
+    placeHoldName = document.querySelectorAll('[placeholder="Наименование"]');
+    regular();
   },
   getIncome: function () {
     incomeItems.forEach(function (item) {
@@ -211,18 +216,24 @@ buttonPlusExpenses.addEventListener('click', appData.addExpensesBlock);
 buttonPlusIncome.addEventListener('click', appData.addIncomeBlock);
 periodRange.addEventListener('input', appData.getRangeText);
 
-placeHoldName.forEach(function(item) {
-  item.addEventListener('input', function() {
-    item.value = item.value.replace(wordRegect, '');
-  });
-});
 
-placeHoldNumber.forEach(function(item) {
-  item.addEventListener('input', function() {
-    item.value = item.value.replace(numderRegect, '');
-  });
-});
 
+const regular = function () {
+  placeHoldName.forEach(function(item) {
+    item.addEventListener('input', function() {
+      item.value = item.value.replace(wordRegect, '');
+    });
+  });
+  placeHoldNumber.forEach(function(item) {
+    
+    item.addEventListener('input', function() {
+      item.value = item.value.replace(numderRegect, '');
+    });
+  });
+};
+
+
+regular();
 
 // console.log('Наша программа включает в себя данные: ');
 // for(let key in appData) {
