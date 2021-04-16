@@ -5,15 +5,15 @@ const todoControl = document.querySelector('.todo-control');
 const todoList = document.querySelector('.todo-list');
 const todoCompleted = document.querySelector('.todo-completed');
 
-const todoData = [];
+let todoData = [];
 
 const render = function () {
   todoList.textContent = '';
   todoCompleted.textContent = '';
+  let li;
   todoData.forEach(function (item) {
-    const li = document.createElement('li');
+    li = document.createElement('li');
     li.classList.add('todo-item');
-      
     li.innerHTML = `
       <span class="text-todo">${item.value}</span>
       <div class="todo-buttons">
@@ -22,27 +22,29 @@ const render = function () {
       </div>
     `;
 
-    if(item.completed) {
-      todoCompleted.append(li);
-    } else {
-      todoList.append(li);
-    }
-    const todoComplete = li.querySelector('.todo-complete');
-    todoComplete.addEventListener('click', function () {
-      item.completed = !item.completed;
-      render();
-    });
-    const todoRemove = li.querySelector('.todo-remove');
-    todoRemove.addEventListener('click', function () {
-      li.remove();
-    });
+    completed(item, li);
   });
-
-//   todoData.forEach(function(item) {
-//     localStorage.setItem(item, JSON.stringify(item));
-//   });
 };
 
+const completed = function(i, elem) {
+  if(i.completed) {
+    todoCompleted.append(elem);
+  } else {
+    todoList.append(elem);
+  }
+};
+
+const removeItem = function() {
+  let parent = this.closest('.todo-item');
+  let textValue = parent.querySelector('.text-todo').textContent;
+  let key = {
+    'value': textValue,
+  };
+  let remObj = JSON.stringify(key);
+  localStorage.removeItem(remObj);
+  localParseObj();
+};
+// добавить пункт меню
 const addTodo = function () {
   const newTodo = {
     value: headerInput.value,
@@ -50,6 +52,31 @@ const addTodo = function () {
   };
   headerInput.value = '';
   todoData.push(newTodo);
+  // добавление пунтка в localStorage
+  todoData.forEach(function(item) {
+    let value = {
+      'value': item.value,
+    };
+    let key = {
+      'completed': item.completed,
+    };
+    localStorage.setItem(JSON.stringify(value), JSON.stringify(key));
+  });
+  // берем данные из нового обьекта и там вызываем рендер
+  localParseObj();
+};
+
+const complet = function() {
+  let parent = this.closest('.todo-item');
+  let textValue = parent.querySelector('.text-todo').textContent;
+  
+  let value = {'value': textValue};
+  let valueComplet = JSON.parse(localStorage.getItem(JSON.stringify(value)));
+  
+  let key = {'completed': !valueComplet.completed};
+  localStorage.setItem(JSON.stringify(value), JSON.stringify(key));
+
+  localParseObj();
 };
 
 todoControl.addEventListener('submit', function (event) {
@@ -58,17 +85,45 @@ todoControl.addEventListener('submit', function (event) {
     return;
   }
   addTodo();
-  render();
 });
-// при нажатии на ENTER 
+// при нажатии на ENTER добавление пунтка
 document.addEventListener('keydown', function (event) {
   if (headerInput.value.trim() === '') {
     return;
   }
   if(event.key === 'Enter') {
     addTodo();
-    render();
   }
 });
-console.log(todoData);
-render();
+
+const localParseObj = function() {
+  //чистит объект
+  todoData = [];
+  // получает из localStorage данные в объкт appData
+  Object.keys(localStorage).forEach(function(item) {
+    let it = JSON.parse(item);
+    let complet = JSON.parse(localStorage.getItem(item));
+    const newTodo = {
+      value: it.value,
+      completed: complet.completed,
+    };
+    todoData.push(newTodo);
+  });
+  // выводит на экран фунцией
+  render();
+  // слушатель на корзину
+  const todoRemove = document.querySelectorAll('.todo-remove');
+  todoRemove.forEach(function(item) {
+    item.addEventListener('click', removeItem);
+  });
+  const todoComplete = document.querySelectorAll('.todo-complete');
+  todoComplete.forEach(function(item) {
+    item.addEventListener('click', complet);
+  });
+};
+
+localParseObj();
+
+
+
+
