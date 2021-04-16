@@ -37,6 +37,10 @@ const render = function () {
       li.remove();
     });
   });
+
+//   todoData.forEach(function(item) {
+//     localStorage.setItem(item, JSON.stringify(item));
+//   });
 };
 
 const addTodo = function () {
@@ -66,5 +70,5 @@ document.addEventListener('keydown', function (event) {
     render();
   }
 });
-
+console.log(todoData);
 render();
