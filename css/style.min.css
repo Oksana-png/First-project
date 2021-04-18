@@ -38,7 +38,7 @@
 }
 .buttons__reg:hover,
 .buttons__autorazed:hover {
-  opacity: 0.3;
+  opacity: 0.5;
 }
 .user {
   display: flex;

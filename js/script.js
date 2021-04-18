@@ -19,11 +19,8 @@ document.addEventListener("DOMContentLoaded", function () {
     };
     let value = JSON.stringify(userRemove);
     Object.keys(localStorage).forEach(function (item) {
-      console.log(value);
-      console.log(localStorage.getItem(item));
       if (value === localStorage.getItem(item)) {
         localStorage.removeItem(item);
-        console.log(item);
         localStData();
       }
     });
@@ -66,6 +63,10 @@ document.addEventListener("DOMContentLoaded", function () {
     let userName = prompt("Введите ваше имя и фамилию через пробел");
     let userData = userName.split(" ");
 
+    if (userName.split(" ").length > 2) {
+      alert("Введите только имя и фамилию через пробел!");
+      return;
+    }
     let login = prompt("Введите логин");
     let password = prompt("Введите пароль");
     let date = new Date();
