@@ -66,8 +66,7 @@ class AppData {
 
   start() {
     this.budget = +salaryAmount.value;
-    this.getExpenses();
-    this.getIncome();
+    this.getExpInc();
     this.getExpensesMonth();
     this.getBudget();
     this.getAddExpenses();
@@ -86,7 +85,7 @@ class AppData {
   showResult() {
     budgetMonthValue.value = this.budgetMonth;
     budgetDayValue.value = this.budgetDay;
-    expensesMonthValue.value = this.budgetMonth;
+    expensesMonthValue.value = this.expensesMonth;
     additionalExpensesValue.value = this.addExpenses.join(", ");
     additionalIncomeValue.value = this.addIncome.join(", ");
     targetMonthValue.value = this.month;
@@ -98,55 +97,37 @@ class AppData {
     });
   }
 
-  addExpensesBlock() {
-    let cloneExpensesItem = expensesItems[0].cloneNode(true);
-    let clearClone = cloneExpensesItem.children;
-    for (let key = 0; clearClone.length > key; key++) {
-      clearClone[key].value = "";
-    }
-    buttonPlusExpenses.before(cloneExpensesItem);
-    expensesItems = document.querySelectorAll(".expenses-items");
-    if (expensesItems.length === 3) {
-      buttonPlusExpenses.style.display = "none";
-    }
-    this.checkInput();
-  }
-
-  getExpenses() {
-    expensesItems.forEach((item) => {
-      let itemExpenses = item.querySelector(".expenses-title").value;
-      let cashExpenses = item.querySelector(".expenses-amount").value;
-      if (itemExpenses !== "" && cashExpenses !== "") {
-        this.expenses[itemExpenses] = cashExpenses;
-      }
-    });
-  }
-
-  addIncomeBlock() {
-    let cloneIncomeBlock = incomeItems[0].cloneNode(true);
+  addBlocks(item) {
+    let items = document.querySelectorAll(`.${item}-items`);
+    let cloneItem = items[0].cloneNode(true);
+    let btn = document.querySelector(`.${item}_add`);
     // очистка полей
-    let clearClone = cloneIncomeBlock.children;
+    let clearClone = cloneItem.children;
     for (let key = 0; clearClone.length > key; key++) {
       clearClone[key].value = "";
     }
+    btn.before(cloneItem);
 
-    buttonPlusIncome.before(cloneIncomeBlock);
-    incomeItems = document.querySelectorAll(".income-items");
-
-    if (incomeItems.length === 3) {
-      buttonPlusIncome.style.display = "none";
+    items = document.querySelectorAll(`.${item}-items`);
+    if (items.length === 3) {
+      btn.style.display = "none";
     }
+
     this.checkInput();
   }
 
-  getIncome() {
-    incomeItems.forEach((item) => {
-      let itemIncome = item.querySelector(".income-title").value;
-      let cashIncome = item.querySelector(".income-amount").value;
-      if (itemIncome !== "" && cashIncome !== "") {
-        this.income[itemIncome] = cashIncome;
+  getExpInc() {
+    const count = (item) => {
+      const str = item.className.split("-")[0];
+      let itemTitle = item.querySelector(`.${str}-title`).value;
+      let itemAmount = item.querySelector(`.${str}-amount`).value;
+      if (itemTitle !== "" && itemAmount !== "") {
+        this[str][itemTitle] = +itemAmount;
       }
-    });
+    };
+    incomeItems.forEach(count);
+    expensesItems.forEach(count);
+
     for (let key in this.income) {
       this.incomeMonth += +this.income[key];
     }
@@ -170,6 +151,7 @@ class AppData {
       }
     });
   }
+
   // Сумма всех обязательных расходов
   getExpensesMonth() {
     for (let i in this.expenses) {
@@ -241,8 +223,7 @@ class AppData {
     this.expensesMonth = 0;
     this.month = 0;
 
-    this.getExpenses();
-    this.getIncome();
+    this.getExpInc();
     this.getExpensesMonth();
     this.getBudget();
     this.getAddExpenses();
@@ -298,9 +279,12 @@ class AppData {
     start.addEventListener("click", this.start.bind(this));
     buttonPlusExpenses.addEventListener(
       "click",
-      this.addExpensesBlock.bind(this)
+      this.addBlocks.bind(this, "expenses")
     );
-    buttonPlusIncome.addEventListener("click", this.addIncomeBlock.bind(this));
+    buttonPlusIncome.addEventListener(
+      "click",
+      this.addBlocks.bind(this, "income")
+    );
     periodRange.addEventListener("input", this.getRangeText);
     cancel.addEventListener("click", this.reset.bind(this));
     this.checkInput();
