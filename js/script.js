@@ -129,6 +129,8 @@ class AppData {
         this[str][itemTitle] = +itemAmount;
       }
     };
+    incomeItems = document.querySelectorAll(".income-items");
+    expensesItems = document.querySelectorAll(".expenses-items");
     incomeItems.forEach(count);
     expensesItems.forEach(count);
 
@@ -204,8 +206,8 @@ class AppData {
   getInfoDeposit() {
     if (this.deposit) {
       start.disabled = "false";
-      this.percentDeposit = depositPercent.value;
-      this.moneyDeposit = depositAmount.value;
+      this.percentDeposit = +depositPercent.value;
+      this.moneyDeposit = +depositAmount.value;
     }
   }
 
