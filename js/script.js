@@ -211,6 +211,7 @@ class AppData {
 
   changePersent() {
     const valueSelect = this.value;
+
     if (valueSelect === "other") {
       depositPercent.style.display = "inline-block";
     } else {
@@ -313,19 +314,14 @@ class AppData {
       start.disabled = salaryAmount.value.trim() === "";
       // возвращаем true/false и сразу записываем в атрибут
     });
-    // depositPercent.addEventListener("input", () => {
-    //   if (
-    //     depositPercent.value < 1 ||
-    //     depositPercent.value > 100 ||
-    //     depositPercent.value.trim() === ""
-    //   ) {
-    //     start.disabled = "true";
-    //     alert('Введите корректные данные в поле "Процент"');
-    //   } else {
-    //     start.disabled = "false";
-    //   }
-    // });
-
+    depositPercent.addEventListener("input", () => {
+      if (depositPercent.value < 1 || depositPercent.value > 100) {
+        start.disabled = "true";
+        alert('Введите корректные данные в поле "Процент"');
+      } else {
+        start.disabled = false;
+      }
+    });
     start.addEventListener("click", this.start.bind(this));
     buttonPlusExpenses.addEventListener(
       "click",
